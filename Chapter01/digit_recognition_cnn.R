@@ -28,8 +28,8 @@ image(rotate(sample_7), col = grey.colors(255))
 
 
 # Transform target variable "label" from integer to factor, in order to perform classification
-data$label <- as.factor(data$label)
 is.factor(data$label)
+data$label <- as.factor(data$label)
 
 # Check class balanced or unbalanced
 summary(data$label)
@@ -98,8 +98,13 @@ options(repos = cran)
 if (!require("mxnet")) 
   install.packages("mxnet") 
 
-
 require(mxnet)
+
+data <- read.csv ("train.csv")
+train_perc = 0.75
+train_index <- createDataPartition(data$label, p=train_perc, list=FALSE)
+data_train <- data[train_index,]
+data_test <- data[-train_index,]
 
 data_train <- data.matrix(data_train)
 data_train.x <- data_train[,-1]
